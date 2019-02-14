@@ -4,6 +4,7 @@ import crit  # return evaluation value. param: left, right, other
 import sys
 import crit
 import dijkstra as dks
+import rev
 
 hikisuu = sys.argv
 con_blo = {}
@@ -15,10 +16,10 @@ if len(hikisuu)-1 == 0:
     sys.stderr.write("Error: no argument")
 else:
     for i in range(len(hikisuu)-1):
-        # filename=hikisuu[i+1].split("/")[-1]
-        filename = hikisuu[i+1]
+        filename=hikisuu[i+1].split("/")[-1].split('_')[-1]
+        # filename = hikisuu[i+1]
         # changeg if error
-        filenum = int(hikisuu[i+1].split('X')[1].split('.')[0])
+        filenum = int(hikisuu[i+1].split('X')[1].split('.')[1])
         numbers.append(filenum)
 
         if not (filename in contigs_10X):
@@ -78,11 +79,76 @@ for i in con_blo.keys():
                         grapha[loop[k], loop[l]] = evall + evalr
                 else:
                     grapha[loop[k], loop[l]] = evall + evalr
-print(grapha)
 
 # grapha: {(10X,10X):evalue, ...}
 
+
+
+graphas=sorted(grapha.items(), key = lambda kv: kv[1])
+
+print("!!!sorted!!!")
+print(graphas)
+
+
+groups = []
+
+
+for i in graphas:
+    count = 0
+    change = []
+    for j in range(len(groups)):
+        for k in groups[j]:
+            for l in i[0]:
+                # print(k,l)
+                if k == l:
+                    count = count + 1
+                    change.append(int(j))
+    print(count)
+    if count == 0:
+        groups.append([i[0][0],i[0][1]])
+    elif count == 1:
+        groups[change[0]].append(i[0][0])
+        groups[change[0]].append(i[0][1])
+        groups[change[0]] = list(set(groups[change[0]]))
+    elif count == 2:
+        if len(groups) > 2:
+            if rev.rev(i[0][0]) in groups[change[0]] or rev.rev(i[0][1]) in groups[change[0]]:
+                print("break")
+                print(i)
+                break
+            else:
+                groups[change[0]].append(i[0][0])
+                groups[change[0]].append(i[0][1])
+                print(change[0], change[1])
+                for e in groups[change[1]]:
+                    if rev.rev(e) in groups[change[0]] or rev.rev(e) in groups[change[0]]:
+                        print("break")
+                        print(i)
+                        break
+                if change[0] != change[1]:
+                    for n in groups[change[1]]:
+                        groups[change[0]].append(n)
+                    groups.pop(change[1])
+                else:
+                    pass
+                groups[change[0]] = list(set(groups[change[0]]))
+        else:
+            if change[0] == change[1]:
+                pass
+            else:
+                print("fin")
+                print(i)
+                break
+print("groups:")
+print(groups)
+
+
+
+numbers_uni = list(set(numbers))
+numbers = numbers_uni
 numbers.sort()
+
+
 
 
 def saisyo():
@@ -90,9 +156,9 @@ def saisyo():
         ki1 = 0
         ki2 = 0
         for j in grapha.keys():
-            if '10X'+str(numbers[i])+'.counthapleft' in j:
+            if '10X.'+str(numbers[i])+'.counthapleft' in j:
                 ki1 = 1
-            if '10X'+str(numbers[i])+'.counthapright' in j:
+            if '10X.'+str(numbers[i])+'.counthapright' in j:
                 ki2 = 1
             if ki1 == 1 and ki2 ==1:
                 return i
@@ -103,9 +169,9 @@ def saigo():
         ki1 = 0
         ki2 = 0
         for j in grapha.keys():
-            if '10X'+str(numbers[len(numbers)-1-i])+'.counthapleft' in j:
+            if '10X.'+str(numbers[len(numbers)-1-i])+'.counthapleft' in j:
                 ki1 = 1
-            if '10X'+str(numbers[len(numbers)-1-i])+'.counthapright' in j:
+            if '10X.'+str(numbers[len(numbers)-1-i])+'.counthapright' in j:
                 ki2 = 1
             if ki1 == 1 and ki2 == 1:
                 return len(numbers)-i-1
@@ -120,24 +186,65 @@ edges = []
 for i in grapha.keys():
     edges.append((i[0], i[1], grapha[i]))
 
-
-LR = dks.dijkstra(edges,  '10X'+str(numbers[saisyo()])+'.counthapleft', '10X'+str(numbers[saigo()])+'.counthapright')
-LL = dks.dijkstra(edges,  '10X'+str(numbers[saisyo()])+'.counthapleft', '10X'+str(numbers[saigo()])+'.counthapleft')
-RR = dks.dijkstra(edges,  '10X'+str(numbers[saisyo()])+'.counthapright', '10X'+str(numbers[saigo()])+'.counthapright')
-RL = dks.dijkstra(edges,  '10X'+str(numbers[saisyo()])+'.counthapright', '10X'+str(numbers[saigo()])+'.counthapleft')
-
-print(LR[0])
+# print(edges)
 
 
-if LR[0] > LL[0]:
-    AA = LL   
-elif LR[0] < LL[0]:
-    AA = LR
-
-if RR[0] > RL[0]:
-    BB = RR
-elif RR[0] < RL[0]:
-    BB = RL
 
 
-print(AA)
+
+
+# 
+# def dijk(saisyo,saigo):
+#     LR = dks.dijkstra(edges,  '10X'+str(numbers[saisyo])+'.counthapleft', '10X'+str(numbers[saigo])+'.counthapright')
+#     LL = dks.dijkstra(edges,  '10X'+str(numbers[saisyo])+'.counthapleft', '10X'+str(numbers[saigo]) +'.counthapleft')
+#     RR = dks.dijkstra(edges,  '10X'+str(numbers[saisyo])+'.counthapright', '10X'+str(numbers[saigo])+'.counthapright')
+#     RL = dks.dijkstra(edges,  '10X'+str(numbers[saisyo])+'.counthapright', '10X'+str(numbers[saigo])+'.counthapleft')
+#     return LR, LL, RR, RL
+# 
+# 	
+# print(dijk(saisyo(), saigo()))
+# def looping(syo, go):
+#     mat = dijk(syo,go)
+#     j = mat[0]
+#     k = mat[1]
+#     l = mat[2]
+#     m = mat[3]
+#     if j == inf and k == inf:
+# 	looping(syo,go-1)
+# 	looping(syo+1,go-1)
+#     else:
+#         if j == inf:
+#             return syo,go,k
+#         else:
+# 	    return syo,go,j
+# 
+# 
+# def looping2(syo, go):
+#     mat = dijk(syo,go)
+#     j = mat[0]
+#     k = mat[1]
+#     l = mat[2]
+#     m = mat[3]
+#     if l == inf and m == inf:
+# 	looping(syo,go-1)
+# 	looping(syo+1,go-1)
+#     else:
+#         if l == inf:
+#             return syo,go,m
+#         else:
+# 	    return syo,go,l
+# 	
+# 	
+# 
+# 
+# if LR[0] > LL[0]:
+#     AA = LL   
+# elif LR[0] < LL[0]:
+#     AA = LR
+# 
+# if RR[0] > RL[0]:
+#     BB = RR
+# elif RR[0] < RL[0]:
+#     BB = RL
+# 
+# 
