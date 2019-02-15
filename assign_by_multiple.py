@@ -73,15 +73,18 @@ for i in con_blo.keys():
                 evall = crit.keisan(int(lef), int(rig), int(oth))
                 evalr = crit.keisan(int(lefr), int(rigr), int(othr))
                 if (loop[k], loop[l]) in grapha.keys():
-                    if float(grapha[loop[k], loop[l]]) < float(evall) + float(evalr):
-                        pass
-                    else:
-                        grapha[loop[k], loop[l]] = float(evall) + float(evalr)
+                    grapha[loop[k], loop[l]] = float(grapha[loop[k], loop[l]])*(float(evall) + float(evalr))
                 elif (loop[l], loop[k]) in grapha.keys():
-                    if float(grapha[loop[l], loop[k]]) < float(evall) + float(evalr):
-                        pass
-                    else:
-                        grapha[loop[l], loop[k]] = float(evall) + float(evalr)
+                    grapha[loop[l], loop[k]] = float(grapha[loop[l], loop[k]])*(float(evall) + float(evalr))
+                    # if float(grapha[loop[k], loop[l]]) < float(evall) + float(evalr):
+                    #     pass
+                    # else:
+                    #     grapha[loop[k], loop[l]] = float(evall) + float(evalr)
+                # if (loop[l], loop[k]) in grapha.keys():
+                #     if float(grapha[loop[l], loop[k]]) < float(evall) + float(evalr):
+                #         pass
+                #     else:
+                #         grapha[loop[l], loop[k]] = float(evall) + float(evalr)
                 else:
                     grapha[loop[k], loop[l]] = float(evall) + float(evalr)
 
@@ -108,7 +111,7 @@ for i in graphas:
                 if k == l:
                     count = count + 1
                     change.append([int(j),l])
-    print(count)
+    print(count, "count")
     if count == 0:
         groups.append([i[0][0],i[0][1]])
     elif count == 1:
@@ -117,25 +120,31 @@ for i in graphas:
         groups[change[0][0]] = list(set(groups[change[0][0]]))
     elif count == 2:
         if len(groups) > 2:
-            if rev.rev(i[0][0]) in groups[change[0][0]] or rev.rev(i[0][1]) in groups[change[0][0]]:
-                print("break1")
+            if ((rev.rev(i[0][0]) in groups[change[0][0]]) and (i[0][1] in groups[change[0][0]])) and ((rev.rev(i[0][1]) in groups[change[0][0]]) and (i[0][0] in groups[change[0][0]])):
+                print("break1: ")
                 print(i)
-                break
+                # break
             else:
                 # groups[change[0][0]].append(i[0][0])
                 # groups[change[0][0]].append(i[0][1])
                 print(change[0], change[1])
+                sing = 0
                 for e in groups[change[1][0]]:
-                    if rev.rev(e) in groups[change[0][0]] or rev.rev(e) in groups[change[0][0]]:
-                        print("break2")
-                        print(i)
-                        break
-                if change[0][0] != change[1][0]:
-                    for n in groups[change[1][0]]:
-                        groups[change[0][0]].append(n)
-                    groups.pop(change[1][0])
+                    if (rev.rev(e) in groups[change[0][0]]) or (rev.rev(e) in groups[change[0][0]]):
+                        # print(i)
+                        sing = 1
+                        # print("break2")
+                        # break
+                if sing == 0:
+                    if change[0][0] != change[1][0]:
+                        for n in groups[change[1][0]]:
+                            groups[change[0][0]].append(n)
+                        groups.pop(change[1][0])
+                    else:
+                        pass
                 else:
-                    pass
+                    print(i)
+                    print("break2")
                 groups[change[0][0]] = list(set(groups[change[0][0]]))
         else:
             if change[0][0] == change[1][0]:
@@ -145,9 +154,11 @@ for i in graphas:
                 print(i)
                 break
 print("groups:")
-print(groups)
+#print(groups)
 
-
+for i in range(len(groups)):
+    groups[i]=sorted(groups[i], key = lambda kv: kv.split('.')[1])
+    print(groups[i])
 
 numbers_uni = list(set(numbers))
 numbers = numbers_uni

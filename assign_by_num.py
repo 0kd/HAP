@@ -73,23 +73,26 @@ for i in con_blo.keys():
                 evall = crit.keisan(int(lef), int(rig), int(oth))
                 evalr = crit.keisan(int(lefr), int(rigr), int(othr))
                 if (loop[k], loop[l]) in grapha.keys():
-                    if float(grapha[loop[k], loop[l]]) < float(evall) + float(evalr):
+                    grapha[loop[l], loop[k]][1] = grapha[loop[l], loop[k]][1] + 1 
+                    if float(grapha[loop[k], loop[l]][0]) < float(evall) + float(evalr):
                         pass
                     else:
-                        grapha[loop[k], loop[l]] = float(evall) + float(evalr)
-                elif (loop[l], loop[k]) in grapha.keys():
-                    if float(grapha[loop[l], loop[k]]) < float(evall) + float(evalr):
+                        grapha[loop[k], loop[l]][0] = float(evall) + float(evalr)
+                if (loop[l], loop[k]) in grapha.keys():
+                    grapha[loop[l], loop[k]][1] = grapha[loop[l], loop[k]][1] + 1 
+                    if float(grapha[loop[l], loop[k]][0]) < float(evall) + float(evalr):
                         pass
                     else:
-                        grapha[loop[l], loop[k]] = float(evall) + float(evalr)
+                        grapha[loop[l], loop[k]][0] = float(evall) + float(evalr)
                 else:
-                    grapha[loop[k], loop[l]] = float(evall) + float(evalr)
+                    grapha[loop[k], loop[l]] = [float(evall) + float(evalr), 1]
 
 # grapha: {(10X,10X):evalue, ...}
 
 
 
-graphas=sorted(grapha.items(), key = lambda kv: kv[1])
+print(grapha)
+graphas=sorted(grapha.items(), key = lambda kv: kv[1][0])
 
 print("!!!sorted!!!")
 print(graphas)
@@ -122,8 +125,8 @@ for i in graphas:
                 print(i)
                 break
             else:
-                # groups[change[0][0]].append(i[0][0])
-                # groups[change[0][0]].append(i[0][1])
+                groups[change[0][0]].append(i[0][0])
+                groups[change[0][0]].append(i[0][1])
                 print(change[0], change[1])
                 for e in groups[change[1][0]]:
                     if rev.rev(e) in groups[change[0][0]] or rev.rev(e) in groups[change[0][0]]:
