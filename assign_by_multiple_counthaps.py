@@ -96,13 +96,14 @@ graphas=sorted(grapha.items(), key = lambda kv: kv[1])
 
 print("!!!sorted!!!")
 print(graphas)
-
+import counthaps
+aaa = counthaps.aaa
 
 groups = []
 graph_discarded = []
 
 
-for i in graphas:
+for i in aaa:
     count = 0
     change = []
     for j in range(len(groups)):
