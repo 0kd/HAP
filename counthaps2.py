@@ -1,0 +1,1 @@
+aaa = [(('10X.1.counthapright', '10X.10.counthapright'), 7.19699663897749e-2), (('10X.10.counthapright', '10X.100.counthapright'), 7.19699663897749e-2), (('10X.1.counthapright', '10X.100.counthapright'), 7.19699663897749e-2),(('10X.1.counthapright', '10X.1000.counthapright'), 2),  (('10X.100.counthapright', '10X.1000.counthapright'), 0.002)]
