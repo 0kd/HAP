@@ -1,5 +1,6 @@
 from dijkstra_class import Dijkstra as dc
 import counthaps as ch
+import rev
 
 
 class test:
@@ -17,6 +18,7 @@ class test:
 
     def trace(self, saigox):
         print(saigox, self.d[saigox], self.fmap[saigox])
+
         if self.fmap[saigox] != self.hajime:
             self.trace(self.fmap[saigox])
         else:
@@ -24,49 +26,62 @@ class test:
 
 aaa = ch.aaa
 
+
 for i in range(len(aaa)):
     if int(aaa[i][0][0].split('.')[1]) < int(aaa[i][0][1].split('.')[1]):
         aaa[i] = [aaa[i][0][0], aaa[i][0][1], float(aaa[i][1])]
     else:
         aaa[i] = [aaa[i][0][1], aaa[i][0][0], float(aaa[i][1])]
 
-print(aaa)
 bbb = aaa[:]
+
 for i in range(len(aaa)):
-    if aaa[i][0].split('counthap')[1] == 'right':
-        rev1 = aaa[i][0].split('counthap')[1]+'left'
-    else:
-        rev1 = aaa[i][0].split('counthap')[1]+'right'
-    if aaa[i][1].split('counthap')[1] == 'right':
-        rev2 = aaa[i][1].split('counthap')[1]+'left'
-    else:
-        rev2 = aaa[i][1].split('counthap')[1]+'right'
-    rev3 = aaa[i][2]
+    liss = aaa[i]
+    rev1 = rev.rev(liss[0])
+    rev2 = rev.rev(liss[1])
+    rev3 = float(liss[2])
+    rec = True
 
     for j in range(len(aaa)):
-        liss = aaa[i]
         lisj = aaa[j]
-        if lisj[0] == rev1 and lisj[j][1] == rev2:
-            bbb[i][2] = aaa[i][2]*aaa[j][2]
-            bbb[j][2] = aaa[i][2]*aaa[j][2]
-        else:
-            bbb.append([liss[0], liss[1], liss[2]*lisj[2]])
 
-    print(bbb)
+        if lisj[0] == rev1 and lisj[1] == rev2:
+            rec = False
+            recj = j
 
+    evn = liss[2]*aaa[j][2]
+    if rec == False:
+        bbb[i][2] = evn 
+        bbb[recj][2] = evn
+    else:
+        bbb.append([rev1, rev2, evn])
+        bbb[i][2] = evn 
+
+bbb=sorted(bbb, key = lambda kv: kv[0])
+
+
+print(bbb)
             
 
-
+# 
+print("")
 dkao = test(bbb, '10X.1.counthapright', '10X.7842956.counthapright')
-# dkao = test(aaa, '10X.1.counthapright', '10X.1000.counthapright')
-# dkao = test(bbb, '10X.1.counthapleft', '10X.1000.counthapright')
-# dkao = test(bbb, '10X.1.counthapleft', '10X.1000.counthapleft')
+a = dkao.tracex()
+print(a)
+# # dkao = test(aaa, '10X.1.counthapright', '10X.1000.counthapright')
+# # dkao = test(bbb, '10X.1.counthapleft', '10X.1000.counthapright')
+# # dkao = test(bbb, '10X.1.counthapleft', '10X.1000.counthapleft')
+print("")
 dkao = test(bbb, '10X.1.counthapright', '10X.7842956.counthapleft')
-dkao = test(aaa, '10X.1.counthapleft',  '10X.7842956.counthapright')
-dkao = test(aaa, '10X.1.counthapleft',  '10X.7842956.counthapleft')
 dkao.tracex()
-
-
+print("")
+dkao = test(bbb, '10X.1.counthapleft',  '10X.7842956.counthapright')
+dkao.tracex()
+print("")
+dkao = test(bbb, '10X.1.counthapleft',  '10X.7842956.counthapleft')
+dkao.tracex()
+# 
+# 
 
 
 
