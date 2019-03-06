@@ -21,7 +21,11 @@ class test:
         return self.lists
 
     def trace(self, saigox):
-        print(saigox, self.d[saigox], self.fmap[saigox],self.fmap,self.g, "trace")
+        # print(saigox, self.d[saigox], self.fmap[saigox],self.fmap,self.g, "trace")
+
+        if ( saigox not in self.d) or  ( saigox not in self.fmap):
+            return False
+
         self.lists.append([saigox, self.d[saigox], self.fmap[saigox]])
 
         if self.fmap[saigox] != self.hajime:
@@ -103,6 +107,9 @@ for i in range(len(bbb)):
 
             ccc.append([rev1, rev2, vae])
             ccc.append([liss[0], liss[1], vae])
+            # 逆の鎖も重み1にして入れる
+            # ccc.append([bbb[recj1][0], bbb[recj1][1], 1])
+            # ccc.append([bbb[recj1][0], bbb[recj2][1], 1])
         else: # 逆がない
             ccc.append([rev1, rev2, bbb[i][2]])
             ccc.append([liss[0], liss[1], bbb[i][2]])
@@ -155,7 +162,7 @@ class mkkeiro(test):
             if ii not in listn:
                 listn.append(ii)
         listn = sorted(listn)
-        print(listn)
+        # print(listn)
 
         return listn
     
@@ -164,7 +171,7 @@ class mkkeiro(test):
     def mklist(self, sta, end): # return the part of connection list
         for i in range(len(self.listd)):
             num1 = self.listd[i][0].split('.')[1]
-
+            # print(sta, num1)
             if sta == int(num1):
                 stn = i
 
@@ -182,7 +189,6 @@ class mkkeiro(test):
             if end < int(num1) or i == len(self.listd)-1:
                 enn1 = i
 
-                break
 
 #         print(self.listd, stn,end, enn, enn1,  "eeeeeeeeeeeeeeeee")
 
@@ -192,12 +198,12 @@ class mkkeiro(test):
 
             for i in list_limited:
 
-                if i[0].split('.')[1] == sta and i[1].split('.')[1] == end:
-                    pass
+                if int(i[0].split('.')[1]) == sta and int(i[1].split('.')[1]) == end:
+                    print("removed")
                 else:
                     list_limited2.append(i)
 
-            return list_limited2[stn:enn+1]
+            return list_limited2  # [stn:enn+1]
         else:
 
             return self.listd[stn:enn1+1]
@@ -221,10 +227,14 @@ class mkkeiro(test):
         # b = dkao.tracex()
         dkao = test(ccc1, start, end)
         b = dkao.tracex()
+        if b == False:
+            self.finlis.append(b)
+            
+        print(b, "bbbb")
 
  #        if a[0][1] > b[0][1]:
         for i in b:
-            print(b, 'bbbbbbbbbb')
+            # print(b, 'bbbbbbbbbb')
             print(i, "iiiiiiiiiiii")
             nummstart = int(i[2].split('.')[1])
             nummend = int(i[0].split('.')[1])
@@ -232,20 +242,25 @@ class mkkeiro(test):
             # if lista.index(nummstart)+1 == lista.index(nummend):
 
             if len(b) == 1:
-                print(lista.index(nummstart)+1, lista.index(nummend))
-                print(lista, nummstart, nummend)
+                print("if")
+                # print(lista.index(nummstart)+1, lista.index(nummend))
+                # print(lista, nummstart, nummend)
                 self.finlis.append([i[0], i[1], i[2]])
 
             else:
-                print(lista.index(nummstart)+1, lista.index(nummend))
-                print(lista, nummstart, nummend)
+                print("else")
+                # print(lista.index(nummstart)+1, lista.index(nummend))
+                # print(lista, nummstart, nummend)
                 ddd = self.mklist(nummstart, nummend)
 
-                if len(ddd) == 0:
+                print(ddd, i[2],nummstart,nummend, "ddddddddddddddddddddddddd")
+                if len(ddd) == 2:
+                    print("if2")
                     self.finlis.append([i[0], i[1], i[2]])
                 else:
-                    print(ddd, i[2],nummstart,nummend, "dddddddddddd")
-                    print(i, "a,b")
+                    print("else2")
+                    # print(i, "a,b")
+                    c = b[:]
                     self.keiro(ddd, i[2], i[0], lista)
 #         else:
 #             for i in a:
@@ -265,11 +280,13 @@ class mkkeiro(test):
 
         return self.finlis 
 
-keid = mkkeiro(ccc, 1, 7842956)
+keid = mkkeiro(bbb, 1, 7842956)
 print(keid.numlist())
 print("mklist")
-print(keid.mklist(5328797, 7842956))
-print(keid.keirox())
+# print(keid.mklist(5328797, 7842956))
+# print(keid.mklist(3860396,5328797))
+# print(keid.mklist(1519721 ,6851277))
+print(keid.keirox(), "finlis")
 
 
 # keiro(ccc, 1, 7842956)
@@ -278,7 +295,7 @@ print(keid.keirox())
 # print("")
 # dkao = test(ccc, '10X.1.counthapleft',  '10X.7842956.counthapright')
 # print("")
-# dkao = test(ccc, '10X.1.counthapleft',  '10X.7842956.counthapleft')
+#dkao = test(ccc, '10X.1.counthapleft',  '10X.7842956.counthapleft')
 # dkao.tracex()
 # 
 # 
