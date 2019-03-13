@@ -1,6 +1,7 @@
 from dijkstra_class import Dijkstra as dc
 import counthaps as ch
 import rev
+
 aaa = ch.aaa
 
 
@@ -14,6 +15,7 @@ class test:
         dk.dump()  # 表示
         self.d, self.fmap = dk.trav(self.hajime)  # Dijkstra法を実行し重みと直前を返す。
         self.lists = []
+
     def tracex(self):
         if self.fmap[self.saigo] != float('inf'):
             self.trace(self.saigo)
@@ -23,7 +25,7 @@ class test:
     def trace(self, saigox):
         # print(saigox, self.d[saigox], self.fmap[saigox],self.fmap,self.g, "trace")
 
-        if ( saigox not in self.d) or  ( saigox not in self.fmap):
+        if (saigox not in self.d) or (saigox not in self.fmap):
             return False
 
         self.lists.append([saigox, self.d[saigox], self.fmap[saigox]])
@@ -31,8 +33,7 @@ class test:
         if self.fmap[saigox] != self.hajime:
             self.trace(self.fmap[saigox])
         else:
-            return 
-
+            return
 
 
 for i in range(len(aaa)):
@@ -59,16 +60,16 @@ for i in range(len(aaa)):
 
             break
 
-    evn = liss[2]*aaa[j][2]
+    evn = liss[2] * aaa[j][2]
 
     if rec == False:
-        bbb[i][2] = evn 
+        bbb[i][2] = evn
         bbb[recj][2] = evn
     else:
         bbb.append([rev1, rev2, evn])
-        bbb[i][2] = evn 
+        bbb[i][2] = evn
 
-bbb = sorted(bbb, key = lambda kv: kv[0])
+bbb = sorted(bbb, key=lambda kv: kv[0])
 
 ccc = []
 visited = []
@@ -95,37 +96,34 @@ for i in range(len(bbb)):
                 recj2 = j
             elif lisj[0] == rev1 and lisj[1] == rev2:
                 recj3 = j
-        
-        if rec == False: # 逆が存在
+
+        if rec == False:  # 逆が存在
             rece1 = bbb[recj1][2]
             rece2 = bbb[i][2]
 
             if rece1 > rece2:
-                vae = rece2/rece1
+                vae = rece2 / rece1
             else:
-                vae = rece1/rece2
+                vae = rece1 / rece2
 
             ccc.append([rev1, rev2, vae])
             ccc.append([liss[0], liss[1], vae])
             # 逆の鎖も重み1にして入れる
             # ccc.append([bbb[recj1][0], bbb[recj1][1], 1])
             # ccc.append([bbb[recj1][0], bbb[recj2][1], 1])
-        else: # 逆がない
+        else:  # 逆がない
             ccc.append([rev1, rev2, bbb[i][2]])
             ccc.append([liss[0], liss[1], bbb[i][2]])
 
-
-
-
-
 print(bbb)
-            
+
 print("ccc")
-ccc = sorted(ccc, key = lambda kv: kv[0])
+ccc = sorted(ccc, key=lambda kv: kv[0])
 print(ccc)
 # 
 
 print("")
+
 
 ## ccc: contradiction was deleted, bbb: contradiction was non-deleted
 
@@ -143,13 +141,18 @@ print("")
 # dkao.tracex()
 
 class mkkeiro(test):
-    def __init__(self,listg, startg, endg):
+
+    def __init__(self, listg, startg, endg):
         self.listd = listg
-        self.st = startg 
-        self.en = endg 
+        self.st = startg
+
+        self.en = endg
         self.finlis = []
 
-    def numlist(self): ## return list of number of blocks  
+        for i in self.listd:
+            print(i)
+
+    def numlist(self):  ## return list of number of blocks
         listn = []
 
         for i in self.listd:
@@ -165,13 +168,13 @@ class mkkeiro(test):
         # print(listn)
 
         return listn
-    
 
-## make sure listd has beensorted
-    def mklist(self, sta, end): # return the part of connection list
+    ## make sure listd has beensorted
+    def mklist(self, sta, end):  # return the part of connection list
         for i in range(len(self.listd)):
             num1 = self.listd[i][0].split('.')[1]
             # print(sta, num1)
+
             if sta == int(num1):
                 stn = i
 
@@ -186,14 +189,13 @@ class mkkeiro(test):
             if end == int(num1):
                 enn = i
 
-            if end < int(num1) or i == len(self.listd)-1:
+            if end < int(num1) or i == len(self.listd) - 1:
                 enn1 = i
 
-
-#         print(self.listd, stn,end, enn, enn1,  "eeeeeeeeeeeeeeeee")
+        #         print(self.listd, stn,end, enn, enn1,  "eeeeeeeeeeeeeeeee")
 
         if enn != -1:
-            list_limited = self.listd[stn:enn+1]
+            list_limited = self.listd[stn:enn + 1]
             list_limited2 = []
 
             for i in list_limited:
@@ -206,20 +208,20 @@ class mkkeiro(test):
             return list_limited2  # [stn:enn+1]
         else:
 
-            return self.listd[stn:enn1+1]
+            return self.listd[stn:enn1 + 1]
 
-    def keiro_sentaku(self,ccc1, start, end, lista): # return the route
-        dkao = test(ccc1, '10X.'+str(start)+'.counthapright', '10X.'+str(end)+'.counthapright')
+    def keiro_sentaku(self, ccc1, start, end, lista):  # return the route
+        dkao = test(ccc1, '10X.' + str(start) + '.counthapright', '10X.' + str(end) + '.counthapright')
         a = dkao.tracex()
-        dkao = test(ccc1, '10X.'+str(start)+'.counthapright', '10X.'+str(end)+'.counthapleft')
+        dkao = test(ccc1, '10X.' + str(start) + '.counthapright', '10X.' + str(end) + '.counthapleft')
         b = dkao.tracex()
 
         if a[0][1] > b[0][1]:
-            self.keiro(ccc1, '10X.'+str(start)+'.counthapright', '10X.'+str(end)+'.counthapleft', lista)
+            self.keiro(ccc1, '10X.' + str(start) + '.counthapright', '10X.' + str(end) + '.counthapleft', lista)
         else:
-            self.keiro(ccc1, '10X.'+str(start)+'.counthapright', '10X.'+str(end)+'.counthapright', lista)
-    
-    def keiro(self,ccc1, start, end, lista): # return the route
+            self.keiro(ccc1, '10X.' + str(start) + '.counthapright', '10X.' + str(end) + '.counthapright', lista)
+
+    def keiro(self, ccc1, start, end, lista):  # return the route
         # dkao = test(ccc1, '10X.'+str(start)+'.counthapright', '10X.'+str(end)+'.counthapright')
         # print(ccc1, '10X.'+str(start)+'.counthapright', '10X.'+str(end)+'.counthapright', "122222222222")
         # a = dkao.tracex()
@@ -227,12 +229,14 @@ class mkkeiro(test):
         # b = dkao.tracex()
         dkao = test(ccc1, start, end)
         b = dkao.tracex()
+
         if b == False:
             self.finlis.append(b)
-            
+
         print(b, "bbbb")
 
- #        if a[0][1] > b[0][1]:
+        #        if a[0][1] > b[0][1]:
+
         for i in b:
             # print(b, 'bbbbbbbbbb')
             print(i, "iiiiiiiiiiii")
@@ -253,34 +257,36 @@ class mkkeiro(test):
                 # print(lista, nummstart, nummend)
                 ddd = self.mklist(nummstart, nummend)
 
-                print(ddd, i[2],nummstart,nummend, "ddddddddddddddddddddddddd")
+                print(ddd, i[2], i[0], nummstart, nummend, "ddddddddddddddddddddddddd")
+
                 if len(ddd) == 2:
                     print("if2")
                     self.finlis.append([i[0], i[1], i[2]])
                 else:
                     print("else2")
                     # print(i, "a,b")
-                    c = b[:]
                     self.keiro(ddd, i[2], i[0], lista)
-#         else:
-#             for i in a:
-#                 # if lista.index(int(i[2].split('.')[1]))+1 == lista.index(int(i[0].split('.')[1])):
-# 
-#                 if len(a) == 1:
-#                     self.finlis.append([i[0], i[1], i[2]])
-# 
-#                 else:
-#                     ddd = self.mklist(i[2], i[0])
-#                     self.keiro(ddd, i[2], i[0])
+
+    #         else:
+    #             for i in a:
+    #                 # if lista.index(int(i[2].split('.')[1]))+1 == lista.index(int(i[0].split('.')[1])):
+    #
+    #                 if len(a) == 1:
+    #                     self.finlis.append([i[0], i[1], i[2]])
+    #
+    #                 else:
+    #                     ddd = self.mklist(i[2], i[0])
+    #                     self.keiro(ddd, i[2], i[0])
 
     def keirox(self):
         listf = self.numlist()
         print(len(self.listd), self.st, self.en)
         self.keiro_sentaku(self.listd, self.st, self.en, listf)
 
-        return self.finlis 
+        return self.finlis
 
-keid = mkkeiro(bbb, 1, 7842956)
+
+keid = mkkeiro(ccc, 1, 7842956)
 print(keid.numlist())
 print("mklist")
 # print(keid.mklist(5328797, 7842956))
@@ -288,26 +294,13 @@ print("mklist")
 # print(keid.mklist(1519721 ,6851277))
 print(keid.keirox(), "finlis")
 
-
 # keiro(ccc, 1, 7842956)
 
 # 
 # print("")
 # dkao = test(ccc, '10X.1.counthapleft',  '10X.7842956.counthapright')
 # print("")
-#dkao = test(ccc, '10X.1.counthapleft',  '10X.7842956.counthapleft')
+# dkao = test(ccc, '10X.1.counthapleft',  '10X.7842956.counthapleft')
 # dkao.tracex()
 # 
-# 
-
-
-
-
-
-
-
-
-
-
-
-
+#
