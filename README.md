@@ -13,4 +13,4 @@ alternative for mk_haplo_fasta.pl
 
 ## assign_haplo.py
 
-assign "10X blocks to each allele"
+assign "10X blocks" to each allele
