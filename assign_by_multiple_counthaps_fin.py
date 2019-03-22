@@ -1,3 +1,5 @@
+# coding: utf-8
+
 # args: cpounthap
 
 import crit  # return evaluation value. param: left, right, other 
@@ -5,8 +7,6 @@ import sys
 import crit
 import dijkstra as dks
 import rev
-import counthaps
-aaa = counthaps.aaa
 groups = []
 graph_discarded = []
 
@@ -15,12 +15,6 @@ graph_discarded = []
 
 
 # args: cpounthap
-
-import crit  # return evaluation value. param: left, right, other 
-import sys
-import crit
-import dijkstra as dks
-import rev
 
 hikisuu = sys.argv
 con_blo = {}
@@ -306,3 +300,8 @@ for i in range(len(groups)):
     print(groups[i])
 
 
+
+
+    
+
+    

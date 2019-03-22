@@ -1,5 +1,6 @@
-# args: cpounthap
+# coding: utf-8
 
+# args: cpounthap
 import crit  # return evaluation value. param: left, right, other 
 import sys
 import crit

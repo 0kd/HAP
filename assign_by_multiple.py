@@ -61,6 +61,7 @@ grapha = {}
 for i in con_blo.keys():
     loop = []
     for j in con_blo[i].keys():
+        print(j)
         loop.append(j)
         for k in range(len(loop)):
             for l in range(k+1, len(loop)):
