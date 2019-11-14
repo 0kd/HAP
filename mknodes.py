@@ -25,6 +25,7 @@ print(lisu)
 
 for i in range(len(lisu)):
     pos[lisu[i]] = (i, i)
+    print(i)
     G.add_node(i)
 
 for i in arr:
