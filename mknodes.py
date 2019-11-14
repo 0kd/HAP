@@ -24,7 +24,7 @@ lisu =  sorted(ilsta, key=lambda x:int(x.split('.')[1]))
 print(lisu)
 
 for i in range(len(lisu)):
-    pos[lisu[i]] = (i, i)
+    pos[lisu[i]] = (0, i)
     print(i)
     G.add_node(i)
 
