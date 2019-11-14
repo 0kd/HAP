@@ -33,7 +33,7 @@ for i in arr:
     print(i[0], i[1])
 
 
-nx.draw(G)
+nx.draw(G, pos)
 plt.savefig("test.png")
 ar.close()
 
