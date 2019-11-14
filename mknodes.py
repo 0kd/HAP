@@ -12,7 +12,6 @@ pos = {}
 ilst = []
 
 for i in arr:
-    G.add_edge(i[0], i[1])
     ilst.append(i[0])
     ilst.append(i[1])
 
@@ -25,6 +24,8 @@ for i in range(len(lisu)):
     pos[lisu[i]] = (i, i)
     G.add_node(i)
 
+for i in arr:
+    G.add_edge(i[0], i[1])
 
 
 nx.draw(G)
