@@ -26,9 +26,11 @@ print(lisu)
 for i in range(len(lisu)):
     pos[lisu[i]] = (0, i)
     G.add_node(lisu[i])
+    print(lisu[i])
 
 for i in arr:
     G.add_edge(i[0], i[1])
+    print(i[0], i[1])
 
 
 nx.draw(G)
