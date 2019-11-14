@@ -14,6 +14,7 @@ for i in arr:
     G.add_node(i[1])
     G.add_edge(i[0], i[1])
 
+nx.draw(G)
 plt.savefig("test.png")
 ar.close()
 
