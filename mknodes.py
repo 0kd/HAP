@@ -10,7 +10,7 @@ a = "nodes.txt"
 
 ar = open(a)
 
-arr = [ i.split() for i in ar.read().split('\n') if i != '' ]
+arr = [i.split() for i in ar.read().split('\n') if i != '']
 pos = {}
 ilst = []
 
@@ -20,13 +20,12 @@ for i in arr:
 
 ilsta = list(set(ilst))
 
-lisu =  sorted(ilsta, key=lambda x:int(x.split('.')[1]))
+lisu = sorted(ilsta, key=lambda x:int(x.split('.')[1]))
 print(lisu)
 
 for i in range(len(lisu)):
     pos[lisu[i]] = (0, i)
-    print(i)
-    G.add_node(i)
+    G.add_node(lisu[i])
 
 for i in arr:
     G.add_edge(i[0], i[1])
