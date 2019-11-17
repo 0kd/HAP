@@ -1,13 +1,16 @@
-def kaijou(numb):
-    numbs = 1
-    while numb > 0:
-        numbs = numbs * numb
-        numb = numb - 1
-    return numbs
+import math
+
+# def kaijou(numb):
+#     return math.factorial(numb)
+#     numbs = 1
+#     while numb > 0:
+#         numbs = numbs * numb
+#         numb = numb - 1
+#     return numbs
 
 
 def combin(bo, si):
-    return kaijou(bo)/(kaijou(si)*kaijou(bo-si))
+    return math.factorial(bo)/(math.factorial(si)*math.factorial(bo-si))
 
 
 def nakami(rig, lef, oth, k):

@@ -289,7 +289,10 @@ for i in ccc:
 
                 # break
 
-print(mkkeiro(ccc1).numlist())
+# print(mkkeiro(ccc1).numlist())
+a = mkkeiro(ccc1).numlist()
+print(a, "a")
+# print(mkkeiro(ccc1).numlist())
 
 print(graph_discarded, "discarded")
 print("groups:")
