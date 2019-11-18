@@ -9,7 +9,7 @@ import math
 
 G=nx.Graph()
 
-a = open('nodes.txt')
+a = open('nodes_bkup.txt')
 arl = [ i.split() for i in a.read().split('\n') if i!=''  ]
 pos = {}
 labels = {}
@@ -21,19 +21,20 @@ for i in nodesl:
     G.add_node(i) 
 for i in range(len(nodesl)):
     if i%2 == 0:
-        pos[nodesl[i]] = (i+1, 0)
+        pos[nodesl[i]] = (i+1, i+0)
     else:
-        pos[nodesl[i]] = (i, 0.001)
-
+        pos[nodesl[i]] = (i, i+2)
+widthl = []
 for i in arl:
     G.add_edge(i[0], i[1])
-    # labels[(i[0], i[1])] = str(int(math.log10(float(i[2]))))
-    labels[(i[0], i[1])] = str(float(i[2]))
+    widthl.append(-float(math.log10(float(i[2]))*0.05))
+    labels[(i[0], i[1])] = str(int(math.log10(float(i[2]))))
+    # labels[(i[0], i[1])] = str(float(i[2]))
 
 
 
-nx.draw(G,pos, node_size = sizes, with_labels = True, font_size = 2,node_color = 'green', edge_color = 'orange' )
-nx.draw_networkx_edge_labels(G,pos,edge_labels=labels,font_size=2, label_pos = 0.4)
+nx.draw(G,pos, node_size = sizes, with_labels = True, font_size = 1,node_color = 'green', edge_color = 'orange', width = widthl )
+nx.draw_networkx_edge_labels(G,pos,edge_labels=labels,font_size=1, label_pos = 0.4)
 
 
 plt.savefig("test_fig.png", dpi=1000)

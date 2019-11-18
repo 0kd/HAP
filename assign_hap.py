@@ -43,4 +43,3 @@ for i in valued:
     
 for i in valuec:
     print('10X.'+i[0], '10X.'+i[1], valuec[i])
-
